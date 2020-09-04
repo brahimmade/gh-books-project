@@ -1,0 +1,48 @@
+{% extends 'commoncode/common_template.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id="bookReader">
+  <div class="container">
+     <h1>Books to Read</h1>
+      {% if user.username %}
+        <div class="row"></div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in books" v-if="book.owner==='{{ request.user.username }}'">
+                <th scope="row">[[ book.id ]]</th>
+                <td>[[ book.book_title ]]</td>
+                <td v-if="book.book_type==='pdf'">
+                  <a v-bind:href="'http://localhost:9000/viewers/pdf-viewer/web/viewer.html?file=../../../media/pdf/'+$options.filters.subStr(book.file)" target="_blank">read pdf</a>
+                </td>
+                <td v-else-if="book.book_type==='epub'">
+                  <a v-bind:href="'http://localhost:9000/viewers/epub-viewer/index.html?bookPath=../../media/epub/'+$options.filters.subStr(book.file)" target="_blank">read epub</a>
+                </td>
+                <td v-else>file format not supported</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p></p>
+        <p>Log into the site to see your uploaded books</p>
+      {% endif %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pagejs %}
+<script src="{% static 'bookselection/js/vue.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bookselection/js/axios.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bookselection/js/vue-reader.js' %}" type="text/javascript"></script>
+
+{% endblock %}

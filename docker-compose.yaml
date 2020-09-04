@@ -1,0 +1,44 @@
+version: "2.1"
+
+services:
+    web:
+        build:
+            context: ./mybooks
+            dockerfile: ./Dockerfile
+        command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - bookVol:/code/media
+        ports:
+            - "8000:8000"
+        restart: "no"
+        depends_on:
+          db:
+            condition: service_healthy
+    
+    db:
+        image: postgres:alpine
+        ports:
+            - 5432:5432
+        restart: "no"
+        environment:
+            - POSTGRES_USER=${DOCKER_COMPOSE_POSTGRES_USER}
+            - POSTGRES_PASSWORD=${DOCKER_COMPOSE_POSTGRES_PASSWORD}
+            - POSTGRES_DB=${DOCKER_COMPOSE_POSTGRES_DB}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    web-viewer:
+        build:
+            context: ./viewersroot
+            dockerfile: ./Dockerfile
+        ports:
+            - 9000:80
+        restart: "no"
+        volumes:
+            - bookVol:/usr/share/nginx/html/media
+
+volumes:
+    bookVol:

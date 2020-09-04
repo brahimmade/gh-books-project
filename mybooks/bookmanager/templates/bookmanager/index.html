@@ -1,0 +1,135 @@
+{% extends 'commoncode/common_template.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id="uploading">
+  <div class="container">
+    <h1>Book Inventory</h1>
+    <p></p>
+    <h4>(owned by {{ user.username }})</h4>
+    <div class="card">
+      <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal">Add Book</button>
+    </div>
+    <p></p>
+    <div class="card">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in books" v-if="book.owner==='{{ request.user.username }}'">
+                <td>[[book.book_title]]</td>
+                <td>
+                  <button class="btn btn-info" v-on:click="getBook(book.id)">Edit</button>
+                  <button class="btn btn-danger" v-on:click="deleteBook(book.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Add Book Modal -->
+      <div class="modal fade" id="addBookModal" 
+        tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" 
+        aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add Book</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <form v-on:submit.prevent="addBook()">
+                {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                  <label for="book_title">Book Title</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="book_title"
+                      placeholder="Enter Book Title"
+                      v-model="newBook.book_title"
+                      required="required" >
+                  </div>
+                  <div class="form-group">
+                  <label for="addfile">Book File</label>
+                  <input
+                      type="file"
+                      class="form-control"
+                      id="file"
+                      ref="addfile"
+                      placeholder="Select File"
+                      required="required"/>
+                  </div>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add Book</button>
+              </div>
+              </form>
+          </div>
+          </div>
+      <div class="loading" v-if="loading===true">Loading&#8230;</div>          
+      </div>
+      <!-- End of new book modal -->
+      <!-- Edit Book Modal -->
+      <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Edit Book Entry</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <form v-on:submit.prevent="updateBook()">
+                {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                  <label for="book_title">Book Title</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="book_title"
+                      placeholder="Enter Book Title"
+                      v-model="currentBook.book_title"
+                      required="required" >
+                  </div>
+                  <div class="form-group">
+                  <label for="file">Book File</label>
+                  <input
+                      type="file"
+                      class="form-control"
+                      id="file"
+                      ref="updatefile"
+                      placeholder="Enter File"
+                      required="required"/>
+                  </div>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save Update</button>
+              </div>
+              </form>
+          </div>
+          </div>
+          <div class="loading" v-if="loading===true">Loading&#8230;</div>
+      </div>
+      <!-- End of edit book modal -->
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pagejs %}
+
+<script src="{% static 'bookmanager/js/vue.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bookmanager/js/axios.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'bookmanager/js/vue-uploader.js' %}" type="text/javascript"></script>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+db.sqlite3
+migrations
+mybooks/static
+mybooks/media
+viewersroot/media
+mybooks/sent_emails
+.DS_Store
+.env
