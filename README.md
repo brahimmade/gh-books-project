@@ -14,7 +14,7 @@ The project has been dockerized.
 
 The docker compose file sets up three services to create the deployed web app.
 
-services
+services  
 web: container that hosts the django based website
 db: a postgres database container 
 web-viewer: an nginx container that serves the ebooks to read using javascript ebook libraries
