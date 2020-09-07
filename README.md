@@ -8,7 +8,8 @@ Django project that contains three apps.
 2. bookmanager - app to upload, update and delete book files and associated info.  
 3. bookselection - app that lets a user view the books they have uploaded and select one to read.  
 
-The django project also uses djangos built in auth / user system to provide a login to keep each users books seperate.
+The django project also uses djangos built in auth / user system to provide a login to keep each users books seperate.  
+Vue.js is used to make the book manager and selection pages dynamic and user friendly.  
 
 The project has been dockerized.  
 
