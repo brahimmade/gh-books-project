@@ -21,4 +21,6 @@ db: a postgres database container
 web-viewer: an nginx container that serves the ebooks to read using javascript ebook libraries  
 bookVol: a shared volume between the web and web-viewer containers to store the uploaded ebooks in the django media location and have them served by the nginx web server.  
 
-To run the web app simply run docker-compose up in the cloned directory. Note: a .env file must be created in the django projects directory to supply needed environment variable values.
+To run the web app simply run docker-compose up in the cloned directory.  
+
+Note: a .env file must be created in the main directory and the django projects directory to supply needed environment variable values. Rename docker.env and django.env files and fill in the required info in each.
