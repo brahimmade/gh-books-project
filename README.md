@@ -1,6 +1,6 @@
 Book Reader and Book Manager
 
-< note: project has been redone as three seperate projects, home_book_api (django rest framework), home_book_viewer (vue.js/quasar) and home_book_server (apache/php) >
+**note: project has been redone as three seperate projects, home_book_api (django rest framework), home_book_viewer (quasar framework) and home_book_server (apache/php)**
 
 Website to read epub and pdf ebooks from a web browser without having to download the ebook to the device. So you can read on what ever you are using at the moment, PC , laptop, tablet, phone, etc.
 
